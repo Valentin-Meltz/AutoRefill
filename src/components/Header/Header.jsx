@@ -7,14 +7,14 @@ import "components/Header/Header.css";
 export default function Header() {
   return (
     <header className="header flex items-center justify-between px-4 py-2 w-full border-b-2 h-2/12">
-        <div className="header-containe flex items-center justify-between w-full">
+        <div className="header-container flex items-center justify-between w-full h-full">
             <div className="logo-container w-1/6">
                 <Link to="/" className="logo">
                     <img src={logo} alt="Logo" className="h-12" />
                 </Link>
             </div>
-            <div className="navbar flex items-center justify-end w-5/6">
-                <ul className="navbar-nav flex items-center justify-around gap-10">
+            <div className="navbar flex items-center justify-end w-5/6 h-full">
+                <ul className="navbar-nav flex items-center justify-around gap-20 h-full">
                     <li className="nav-item">
                         <Link to="/" className="nav-link">Home</Link>
                     </li>
@@ -25,12 +25,12 @@ export default function Header() {
                         <Link to="/contact" className="nav-link">Contact</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/cart" className="nav-link">
+                        <Link to="/cart" className="nav-icon">
                             <img src={cart} alt="Cart" className="icon" />
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/login" className="nav-link">
+                        <Link to="/login" className="nav-icon">
                             <img src={user} alt="User" className="icon" />
                         </Link>
                     </li>
