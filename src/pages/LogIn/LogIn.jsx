@@ -86,9 +86,12 @@ export default function LogIn() {
                     {/* Register Form */} 
                     <div className="form-box register">
                         <div className={`register-steps ${step ? 'step-2' : ''}`}>
+                            {/* First Register From */}
                             <form className="register-form" onSubmit={prenventRegister}>
                                 <h1>Register</h1>
+                                
                                 {registerMessage && <p className="form-description">{registerMessage}</p>}
+                                
                                 <div className="input-box">
                                     <input id="register-firstname" type="text" placeholder="First Name" />
                                     <img className="w-7" src={ user } alt="user-icon" />
@@ -105,11 +108,16 @@ export default function LogIn() {
                                     <input id="register-password" type="password" placeholder="Password" />
                                     <img className="w-7" src={ lock } alt="user-icon" />
                                 </div>
+                                
                                 <button type="submit" className="btn">Register</button>
                             </form>
+
+                            {/* Second Register From */}
                             <form className="complete-form" onSubmit={preventCompletRegister}>
                                 <h1>Complete information</h1>
+                                
                                 {registerMessage && <p className="form-description">{registerMessage}</p>}
+                                
                                 <div className="input-box">
                                     <input id="register-address" type="text" placeholder="Address" />
                                     <img className="w-7" src={ house } alt="user-icon" />
