@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useState } from "react";
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";
 import user from "assets/icon/user-solid-full.svg"
@@ -12,35 +11,24 @@ import envelope from "assets/icon/envelope-solid-full.svg"
 import "./LogIn.css"
 
 export default function LogIn() {
-    useEffect(() => {
-        const container = document.querySelector(".main-container");
-        const registerBtn = document.querySelector(".register-btn");
-        const loginBtn = document.querySelector(".login-btn");
-
-        registerBtn.addEventListener("click", () => {
-            container.classList.add("active");
-        });
-
-        loginBtn.addEventListener("click", () => {
-            container.classList.remove("active");
-        });
-    }, []);
+    const [isRegister, setIsRegister] = useState(false);
+    const [step, setStep] = useState(false);
 
     return (
         <div className="main">
             <Header />
             <div className="main-body flex items-center justify-center py-10">
-                <div className="main-container">
+                <div className={`form-container ${isRegister ? 'active' : ''}`}>
                     {/* Login Form */} 
                     <div className="form-box login">
-                        <form action="">
+                        <form className="login-form" onSubmit={(e) => e.preventDefault()}>
                             <h1>Login</h1>
                             <div className="input-box">
-                                <input id="" type="email" placeholder="Email" required />
+                                <input id="login-email" type="email" placeholder="Email" required />
                                 <img className="w-7" src={ inbox } alt="inbox-icon" />             
                             </div>
                             <div className="input-box">
-                                <input id="" type="password" placeholder="Password" required />
+                                <input id="login-password" type="password" placeholder="Password" required />
                                 <img className="w-7" src={ lock } alt="lock-icon" />
                             </div>
                             <button type="submit" className="btn">Login</button>
@@ -49,42 +37,49 @@ export default function LogIn() {
 
                     {/* Register Form */} 
                     <div className="form-box register">
-                        <form action="">
-                            <h1>Register</h1>
-                            <div className="input-box">
-                                <input id="" type="text" placeholder="First Name" required />
-                                <img className="w-7" src={ user } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="text" placeholder="Last Name" required />
-                                <img className="w-7" src={ user } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="text" placeholder="Email" required />
-                                <img className="w-7" src={ inbox } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="text" placeholder="Address" required />
-                                <img className="w-7" src={ house } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="text" placeholder="Zip Code" required />
-                                <img className="w-7" src={ envelope } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="text" placeholder="City" required />
-                                <img className="w-7" src={ city } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="phone" placeholder="Mobile Phone" required />
-                                <img className="w-7" src={ phone } alt="user-icon" />
-                            </div>
-                            <div className="input-box">
-                                <input id="" type="password" placeholder="Password" required />
-                                <img className="w-7" src={ lock } alt="user-icon" />
-                            </div>
-                            <button type="submit" className="btn">Register</button>
-                        </form>
+                        <div className={`register-steps ${step ? 'step-2' : ''}`}>
+                            <form className="register-form" onSubmit={(e) => e.preventDefault()}>
+                                <h1>Register</h1>
+                                <div className="input-box">
+                                    <input id="register-firstname" type="text" placeholder="First Name" required />
+                                    <img className="w-7" src={ user } alt="user-icon" />
+                                </div>
+                                <div className="input-box">
+                                    <input id="register-lastname" type="text" placeholder="Last Name" required />
+                                    <img className="w-7" src={ user } alt="user-icon" />
+                                </div>
+                                <div className="input-box">
+                                    <input id="register-email" type="email" placeholder="Email" required />
+                                    <img className="w-7" src={ inbox } alt="user-icon" />
+                                </div>
+                                <div className="input-box">
+                                    <input id="register-password" type="password" placeholder="Password" required />
+                                    <img className="w-7" src={ lock } alt="user-icon" />
+                                </div>
+                                <button type="submit" className="btn" onClick={() => setStep(true)}>Register</button>
+                            </form>
+                            <form className="complete-form" onSubmit={(e) => e.preventDefault()}>
+                                <h1>Complete information</h1>
+                                <div className="input-box">
+                                    <input type="text" placeholder="Address" required />
+                                    <img className="w-7" src={ house } alt="user-icon" />
+                                </div>
+                                <div className="input-box">
+                                    <input type="text" placeholder="Zip Code" required />
+                                    <img className="w-7" src={ envelope } alt="user-icon" />
+                                </div>
+                                <div className="input-box">
+                                    <input type="text" placeholder="City" required />
+                                    <img className="w-7" src={ city } alt="user-icon" />
+                                </div>
+                                <div className="input-box">
+                                    <input type="tel" placeholder="Mobile Phone" required />
+                                    <img className="w-7" src={ phone } alt="user-icon" />
+                                </div>
+                                
+                                <button type="submit" className="btn">Register</button>
+                            </form>
+                        </div>
                     </div>
 
                     {/* Toggle Box */} 
@@ -93,14 +88,14 @@ export default function LogIn() {
                         <div className="toggle-panel toggle-left">
                             <h1>Hello, Welcome !</h1>
                             <p>Don't have an acccount ?</p>
-                            <button className="btn register-btn">Register</button>  
+                            <button type="button" className="btn register-btn" onClick={() => setIsRegister(true)}>Register</button>  
                         </div>
 
                         {/* Toggle Box Right*/} 
                         <div className="toggle-panel toggle-right">
                             <h1>Welcome back !</h1>
                             <p>Alreday have an acccount ?</p>
-                            <button className="btn login-btn">Log In</button>
+                            <button type="button" className="btn login-btn" onClick={() => setIsRegister(false)}>Log In</button>
                         </div>
                     </div>
                 </div>
