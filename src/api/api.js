@@ -18,13 +18,13 @@ export async function getProduct(id) {
 }
 
 // Create new user account
-export async function createUser({firstname, lastname, email, password, address, zipcode, city, phone}) {
+export async function createUser({firstName, lastName, email, password, address, postalCode, city, phone}) {
     const res = await fetch(`${API_URL}/user/create`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({firstname, lastname, email, password, address, zipcode, city, phone})
+        body: JSON.stringify({firstName, lastName, email, password, address, postalCode, city, phone})
     });
     const data = await res.json();
     return data;

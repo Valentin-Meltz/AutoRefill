@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";
 import user from "assets/icon/user-solid-full.svg"
@@ -11,10 +12,15 @@ import lock from "assets/icon/lock-solid-full.svg"
 import envelope from "assets/icon/envelope-solid-full.svg"
 import "./LogIn.css"
 
-import { creatuser, getUser, checkLogin } from "api/api"
+import { createUser, checkLogin } from "api/api"
 
 export default function LogIn() {
-    const [log, setLog] = useState();
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+    const navigate = useNavigate();
     const [isRegister, setIsRegister] = useState(false);
     const [step, setStep] = useState(false);
     const [loginMessage, setLoginMessage] = useState('Please enter your login details below.');
@@ -33,18 +39,18 @@ export default function LogIn() {
 
         checkLogin({ email: logEmail, password: logPassword })
             .then(data => {
-            if (!data) {
-                setLoginMessage("Error: Email and Password are not correct.");
-            } else {
-                setLog(data);
-                setLoginMessage("Login successful!");
-                // setup session storage
-            }
+                if (!data) {
+                    setLoginMessage("Error: Email and Password are not correct.");
+                } else {
+                    setLoginMessage("Login successful!");
+                    sessionStorage.setItem("Id", data.id);
+
+                    navigate("/");
+                }
             })
             .catch(err => {
-            console.error(err);
-            setLoginMessage(err.message);
-        });
+                setLoginMessage(err.message);
+            });
     };
 
     const prenventRegister = (e) => {
@@ -58,6 +64,11 @@ export default function LogIn() {
         if(regFirstName === "" || regLastName === "" || regEmail === "" || regPassword === "") {
             setRegisterMessage("Error: All fields are required.");
         } else {
+            setFirstName(regFirstName);
+            setLastName(regLastName);
+            setEmail(regEmail);
+            setPassword(regPassword);
+
             setStep(true);
             setRegisterMessage("Please complete your register details below.");
         }
@@ -74,9 +85,26 @@ export default function LogIn() {
         if(regAddress === "" || regZipCode === "" || regCity === "" || regPhone === "") {
             setRegisterMessage("Error: All fields are required.");
         } else {
-            /* On connect à l'auth */
-        }
+            createUser({firstName: firstName, lastName: lastName, email: email, password: password, address: regAddress, postalCode: regZipCode, city: regCity, phone: regPhone})
+            setRegisterMessage("Thanks for your register");
+
+            checkLogin({ email: email, password: password })
+            .then(data => {
+                if (data) {
+                    sessionStorage.setItem("Id", data.id);
+                    navigate("/");
+                }
+            });
+        }        
     }
+
+    useEffect(() => {
+        const id = sessionStorage.getItem("Id");
+
+        if(id){
+            navigate("/account");
+        }
+    }, [navigate]);
 
     return (
         <div className="main">
