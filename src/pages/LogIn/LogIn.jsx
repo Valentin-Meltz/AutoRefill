@@ -11,7 +11,10 @@ import lock from "assets/icon/lock-solid-full.svg"
 import envelope from "assets/icon/envelope-solid-full.svg"
 import "./LogIn.css"
 
+import { creatuser, getUser, checkLogin } from "api/api"
+
 export default function LogIn() {
+    const [log, setLog] = useState();
     const [isRegister, setIsRegister] = useState(false);
     const [step, setStep] = useState(false);
     const [loginMessage, setLoginMessage] = useState('Please enter your login details below.');
@@ -23,12 +26,26 @@ export default function LogIn() {
         const logEmail = document.getElementById("login-email").value;
         const logPassword = document.getElementById("login-password").value;
 
-        if(logEmail === "" || logPassword === "") {
+        if (logEmail === "" || logPassword === "") {
             setLoginMessage("Error: Email and Password are required.");
-        } else {
-            /* On connect à l'auth */
+            return;
         }
-    }
+
+        checkLogin({ email: logEmail, password: logPassword })
+            .then(data => {
+            if (!data) {
+                setLoginMessage("Error: Email and Password are not correct.");
+            } else {
+                setLog(data);
+                setLoginMessage("Login successful!");
+                // setup session storage
+            }
+            })
+            .catch(err => {
+            console.error(err);
+            setLoginMessage(err.message);
+        });
+    };
 
     const prenventRegister = (e) => {
         e.preventDefault();
