@@ -19,7 +19,7 @@ export default function Products() {
     return (
         <div className="main">
             <Header />
-            <div className="main-container">
+            <div className="main-container m-10 p-5">
                 <ProductsList products={ products } />
             </div>
             <Footer />
