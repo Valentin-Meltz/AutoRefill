@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";
 import user from "assets/icon/user-solid-full.svg"
@@ -10,9 +12,99 @@ import lock from "assets/icon/lock-solid-full.svg"
 import envelope from "assets/icon/envelope-solid-full.svg"
 import "./LogIn.css"
 
+import { createUser, checkLogin } from "api/api"
+
 export default function LogIn() {
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+    const navigate = useNavigate();
     const [isRegister, setIsRegister] = useState(false);
     const [step, setStep] = useState(false);
+    const [loginMessage, setLoginMessage] = useState('Please enter your login details below.');
+    const [registerMessage, setRegisterMessage] = useState('Please enter your register details below.');
+
+    const preventLogin = (e) => {
+        e.preventDefault();
+
+        const logEmail = document.getElementById("login-email").value;
+        const logPassword = document.getElementById("login-password").value;
+
+        if (logEmail === "" || logPassword === "") {
+            setLoginMessage("Error: Email and Password are required.");
+            return;
+        }
+
+        checkLogin({ email: logEmail, password: logPassword })
+            .then(data => {
+                if (!data) {
+                    setLoginMessage("Error: Email and Password are not correct.");
+                } else {
+                    setLoginMessage("Login successful!");
+                    sessionStorage.setItem("Id", data.id);
+
+                    navigate("/");
+                }
+            })
+            .catch(err => {
+                setLoginMessage(err.message);
+            });
+    };
+
+    const prenventRegister = (e) => {
+        e.preventDefault();
+
+        const regFirstName = document.getElementById("register-firstname").value;
+        const regLastName = document.getElementById("register-lastname").value;
+        const regEmail = document.getElementById("register-email").value;
+        const regPassword = document.getElementById("register-password").value;
+
+        if(regFirstName === "" || regLastName === "" || regEmail === "" || regPassword === "") {
+            setRegisterMessage("Error: All fields are required.");
+        } else {
+            setFirstName(regFirstName);
+            setLastName(regLastName);
+            setEmail(regEmail);
+            setPassword(regPassword);
+
+            setStep(true);
+            setRegisterMessage("Please complete your register details below.");
+        }
+    }
+
+    const preventCompletRegister = (e) => {
+        e.preventDefault();
+
+        const regAddress = document.getElementById("register-address").value;
+        const regZipCode = document.getElementById("register-zipcode").value;
+        const regCity = document.getElementById("register-city").value;
+        const regPhone = document.getElementById("register-phone").value;
+
+        if(regAddress === "" || regZipCode === "" || regCity === "" || regPhone === "") {
+            setRegisterMessage("Error: All fields are required.");
+        } else {
+            createUser({firstName: firstName, lastName: lastName, email: email, password: password, address: regAddress, postalCode: regZipCode, city: regCity, phone: regPhone})
+            setRegisterMessage("Thanks for your register");
+
+            checkLogin({ email: email, password: password })
+            .then(data => {
+                if (data) {
+                    sessionStorage.setItem("Id", data.id);
+                    navigate("/");
+                }
+            });
+        }        
+    }
+
+    useEffect(() => {
+        const id = sessionStorage.getItem("Id");
+
+        if(id){
+            navigate("/account");
+        }
+    }, [navigate]);
 
     return (
         <div className="main">
@@ -21,14 +113,15 @@ export default function LogIn() {
                 <div className={`form-container ${isRegister ? 'active' : ''}`}>
                     {/* Login Form */} 
                     <div className="form-box login">
-                        <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+                        <form className="login-form" onSubmit={preventLogin}>
                             <h1>Login</h1>
+                            {loginMessage && <p className="form-description">{loginMessage}</p>}
                             <div className="input-box">
-                                <input id="login-email" type="email" placeholder="Email" required />
+                                <input id="login-email" type="email" placeholder="Email" />
                                 <img className="w-7" src={ inbox } alt="inbox-icon" />             
                             </div>
                             <div className="input-box">
-                                <input id="login-password" type="password" placeholder="Password" required />
+                                <input id="login-password" type="password" placeholder="Password" />
                                 <img className="w-7" src={ lock } alt="lock-icon" />
                             </div>
                             <button type="submit" className="btn">Login</button>
@@ -38,42 +131,52 @@ export default function LogIn() {
                     {/* Register Form */} 
                     <div className="form-box register">
                         <div className={`register-steps ${step ? 'step-2' : ''}`}>
-                            <form className="register-form" onSubmit={(e) => e.preventDefault()}>
+                            {/* First Register From */}
+                            <form className="register-form" onSubmit={prenventRegister}>
                                 <h1>Register</h1>
+                                
+                                {registerMessage && <p className="form-description">{registerMessage}</p>}
+                                
                                 <div className="input-box">
-                                    <input id="register-firstname" type="text" placeholder="First Name" required />
+                                    <input id="register-firstname" type="text" placeholder="First Name" />
                                     <img className="w-7" src={ user } alt="user-icon" />
                                 </div>
                                 <div className="input-box">
-                                    <input id="register-lastname" type="text" placeholder="Last Name" required />
+                                    <input id="register-lastname" type="text" placeholder="Last Name" />
                                     <img className="w-7" src={ user } alt="user-icon" />
                                 </div>
                                 <div className="input-box">
-                                    <input id="register-email" type="email" placeholder="Email" required />
+                                    <input id="register-email" type="email" placeholder="Email" />
                                     <img className="w-7" src={ inbox } alt="user-icon" />
                                 </div>
                                 <div className="input-box">
-                                    <input id="register-password" type="password" placeholder="Password" required />
+                                    <input id="register-password" type="password" placeholder="Password" />
                                     <img className="w-7" src={ lock } alt="user-icon" />
                                 </div>
-                                <button type="submit" className="btn" onClick={() => setStep(true)}>Register</button>
+                                
+                                <button type="submit" className="btn">Register</button>
                             </form>
-                            <form className="complete-form" onSubmit={(e) => e.preventDefault()}>
+
+                            {/* Second Register From */}
+                            <form className="complete-form" onSubmit={preventCompletRegister}>
                                 <h1>Complete information</h1>
+                                
+                                {registerMessage && <p className="form-description">{registerMessage}</p>}
+                                
                                 <div className="input-box">
-                                    <input type="text" placeholder="Address" required />
+                                    <input id="register-address" type="text" placeholder="Address" />
                                     <img className="w-7" src={ house } alt="user-icon" />
                                 </div>
                                 <div className="input-box">
-                                    <input type="text" placeholder="Zip Code" required />
+                                    <input id="register-zipcode" type="text" placeholder="Zip Code" />
                                     <img className="w-7" src={ envelope } alt="user-icon" />
                                 </div>
                                 <div className="input-box">
-                                    <input type="text" placeholder="City" required />
+                                    <input id="register-city" type="text" placeholder="City" />
                                     <img className="w-7" src={ city } alt="user-icon" />
                                 </div>
                                 <div className="input-box">
-                                    <input type="tel" placeholder="Mobile Phone" required />
+                                    <input id="register-phone" type="tel" placeholder="Mobile Phone" />
                                     <img className="w-7" src={ phone } alt="user-icon" />
                                 </div>
                                 
