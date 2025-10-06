@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";
+import Input from "components/Input/Input"
+import Button from "components/Button/Button";
+
 import user from "assets/icon/user-solid-full.svg"
 import inbox from "assets/icon/inbox-solid-full.svg"
 import house from "assets/icon/house-solid-full.svg"
@@ -10,6 +14,7 @@ import city from "assets/icon/city-solid-full.svg"
 import phone from "assets/icon/phone-solid-full.svg"
 import lock from "assets/icon/lock-solid-full.svg"
 import envelope from "assets/icon/envelope-solid-full.svg"
+
 import "./LogIn.css"
 
 import { createUser, checkLogin } from "api/api"
@@ -115,16 +120,13 @@ export default function LogIn() {
                     <div className="form-box login">
                         <form className="login-form" onSubmit={preventLogin}>
                             <h1>Login</h1>
+                            
                             {loginMessage && <p className="form-description">{loginMessage}</p>}
-                            <div className="input-box">
-                                <input id="login-email" type="email" placeholder="Email" />
-                                <img className="w-7" src={ inbox } alt="inbox-icon" />             
-                            </div>
-                            <div className="input-box">
-                                <input id="login-password" type="password" placeholder="Password" />
-                                <img className="w-7" src={ lock } alt="lock-icon" />
-                            </div>
-                            <button type="submit" className="btn">Login</button>
+                            
+                            <Input id={"login-email"} type={"email"} placeholder={"Email"} src={ inbox } alt={"inbox-icon"}></Input>
+                            <Input id={"login-password"} type={"password"} placeholder={"Password"} src={ lock } alt={"lock-icon"}></Input>
+                            
+                            <Button type={ "submit "} text={ "Login" }></Button>
                         </form>
                     </div>
 
@@ -137,24 +139,12 @@ export default function LogIn() {
                                 
                                 {registerMessage && <p className="form-description">{registerMessage}</p>}
                                 
-                                <div className="input-box">
-                                    <input id="register-firstname" type="text" placeholder="First Name" />
-                                    <img className="w-7" src={ user } alt="user-icon" />
-                                </div>
-                                <div className="input-box">
-                                    <input id="register-lastname" type="text" placeholder="Last Name" />
-                                    <img className="w-7" src={ user } alt="user-icon" />
-                                </div>
-                                <div className="input-box">
-                                    <input id="register-email" type="email" placeholder="Email" />
-                                    <img className="w-7" src={ inbox } alt="user-icon" />
-                                </div>
-                                <div className="input-box">
-                                    <input id="register-password" type="password" placeholder="Password" />
-                                    <img className="w-7" src={ lock } alt="user-icon" />
-                                </div>
+                                <Input id={"register-firstname"} type={"text"} placeholder={"First Name"} src={ user } alt={"user-icon"}></Input>
+                                <Input id={"register-lastname"} type={"text"} placeholder={"Last Name"} src={ user } alt={"user-icon"}></Input>
+                                <Input id={"register-email"} type={"email"} placeholder={"Email"} src={ inbox } alt={"inbox-icon"}></Input>
+                                <Input id={"register-password"} type={"password"} placeholder={"Password"} src={ lock } alt={"lock-icon"}></Input>
                                 
-                                <button type="submit" className="btn">Register</button>
+                                <Button type={ "submit "} text={ "Register" }></Button>
                             </form>
 
                             {/* Second Register From */}
@@ -163,24 +153,12 @@ export default function LogIn() {
                                 
                                 {registerMessage && <p className="form-description">{registerMessage}</p>}
                                 
-                                <div className="input-box">
-                                    <input id="register-address" type="text" placeholder="Address" />
-                                    <img className="w-7" src={ house } alt="user-icon" />
-                                </div>
-                                <div className="input-box">
-                                    <input id="register-zipcode" type="text" placeholder="Zip Code" />
-                                    <img className="w-7" src={ envelope } alt="user-icon" />
-                                </div>
-                                <div className="input-box">
-                                    <input id="register-city" type="text" placeholder="City" />
-                                    <img className="w-7" src={ city } alt="user-icon" />
-                                </div>
-                                <div className="input-box">
-                                    <input id="register-phone" type="tel" placeholder="Mobile Phone" />
-                                    <img className="w-7" src={ phone } alt="user-icon" />
-                                </div>
+                                <Input id={"register-address"} type={"text"} placeholder={"Address"} src={ house } alt={"house-icon"}></Input>
+                                <Input id={"register-zipcode"} type={"text"} placeholder={"Zip Code"} src={ envelope } alt={"envelope-icon"}></Input>
+                                <Input id={"register-city"} type={"text"} placeholder={"City"} src={ city } alt={"city-icon"}></Input>
+                                <Input id={"register-phone"} type={"tel"} placeholder={"Mobile Phone"} src={ phone } alt={"user-icon"}></Input>
                                 
-                                <button type="submit" className="btn">Register</button>
+                                <Button type={ "submit "} text={ "Register" }></Button>
                             </form>
                         </div>
                     </div>
