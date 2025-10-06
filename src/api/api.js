@@ -32,7 +32,7 @@ export async function createUser({firstName, lastName, email, password, address,
 
 // Get user details by ID
 export async function getUser(id) {
-    const res = await fetch (`${API_URL}/user/${id}`);
+    const res = await fetch (`${API_URL}/user/${id.id}`);
     const data = await res.json();
     return data;
 }
