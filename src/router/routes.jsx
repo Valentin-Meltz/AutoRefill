@@ -5,7 +5,6 @@ import Cart from "pages/Cart/Cart";
 import Client from "pages/Client/Client";
 import Contact from "pages/Contact/Contact";
 import LogIn from "pages/LogIn/LogIn";
-import Account from "pages/Account/Account";
 
 export default function AppRoutes() {
   return (
@@ -27,9 +26,6 @@ export default function AppRoutes() {
 
       {/* Page LogIn */}
       <Route path="/login" element={<LogIn />} />
-
-      {/* Page SignIn */}
-      <Route path="/account" element={<Account />} />
 
       {/* 404 */}
       <Route path="*" element={<div>Page introuvable</div>} />
