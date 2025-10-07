@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";
-import Input from "components/Input/Input"
+import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 
 import user from "assets/icon/user-solid-full.svg"
