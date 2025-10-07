@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button/Button";
@@ -7,7 +6,6 @@ import Button from "components/Button/Button";
 
 export default function Product({ product }) {
     const navigate = useNavigate();
-    const [cart, setCart] = useState([]);
  
     const checkLogin = () => {
         const id = sessionStorage.getItem("Id");
@@ -20,18 +18,11 @@ export default function Product({ product }) {
 
     const addToCart = () => {
         checkLogin();
-        const updatedCart = [...cart, product];
-        setCart(updatedCart);
+
+        const storedCart = JSON.parse(sessionStorage.getItem("Cart")) || [];
+        const updatedCart = [...storedCart, product];
         sessionStorage.setItem("Cart", JSON.stringify(updatedCart));
     }
-
-    useEffect(() => {
-        const storedCart = JSON.parse(sessionStorage.getItem("Cart"));
-        if (storedCart) {
-            setCart(storedCart);
-        }
-    }, [])
-
 
     return (
         <div className="product-container border p-2 rounded-xl shadow-md flex flex-col w-72 h-full">

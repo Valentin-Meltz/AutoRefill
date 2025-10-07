@@ -20,6 +20,19 @@ export default function Cart() {
     const [price, setPrice] = useState(0);
     const [orderNumber, setOrderNumber] = useState();
 
+    const [showThanks, setShowThanks] = useState(false);
+
+    const handleComplete = () => {
+        const hasItems = cart && ((Array.isArray(cart) && cart.length > 0) || (typeof cart === 'object' && Object.keys(cart).length > 0));
+        if (hasItems) {
+            sessionStorage.removeItem("Cart");
+            setCart(Array.isArray(cart) ? [] : {});
+            setPrice(0);
+            setShowThanks(true);
+        } else {
+            alert('Your cart is empty. Please add products before completing your order.');
+        }
+    };
 
     useEffect(() => {
         const id = sessionStorage.getItem("Id");
@@ -66,6 +79,26 @@ export default function Cart() {
         if (typeof cart === 'object') return Object.values(cart);
         return [];
     }, [cart]);
+
+    if (showThanks) {
+        return (
+            <div className="main">
+                <Header />
+                <div className="main-container flex items-center justify-center min-h-[70vh]">
+                    <div className="border rounded-2xl w-full max-w-2xl p-10 text-center shadow-sm">
+                        <div className="mx-auto mb-6 h-16 w-16 rounded-full border flex items-center justify-center text-2xl">✅</div>
+                        <h1 className="text-3xl font-bold mb-2">Thanks for your order</h1>
+                        <p className="text-gray-600 mb-6">Order n° {orderNumber}</p>
+                        <p className="text-lg mb-8">We're preparing your delivery. You will receive a confirmation email shortly.</p>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button type="button" text="Continue shopping" onClick={() => navigate("/")}></Button>
+                        </div>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className="main">
@@ -154,7 +187,7 @@ export default function Cart() {
                 </div>
                 <div className="flex justify-center mb-10">
                     <div className="w-96">
-                        <Button type="button" text="Complete Order" onClick={""}></Button>
+                        <Button type="button" text="Complete Order" onClick={handleComplete} />
                     </div>
                 </div>
             </div>
