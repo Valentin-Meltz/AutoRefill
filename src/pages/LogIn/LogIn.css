@@ -1,0 +1,154 @@
+.main-body{
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+}
+
+.form-container{
+    position: relative;
+    width: 950px;
+    height: 650px;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.form-container h1{
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    margin: -10px;
+    font-weight: bold;
+}
+
+.form-container p{
+    font-family: 'Poppins', sans-serif;
+    font-size: 14.5px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+form{
+    width: 100%;
+}
+
+.form-box{
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    color: #333;
+    padding: 40px;
+    z-index: 1;
+    transition: 0.6s ease-in-out 1.2s;
+    visibility: 0s 1s ;
+    text-align: center;
+}
+
+.form-container.active .form-box{
+    right: 50%;
+}
+
+.form-box.register{
+    visibility: hidden;
+}
+
+.form-container.active .form-box.register{
+    visibility: visible;
+}
+
+.toggle-box{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.toggle-box::before{
+    content: '';
+    position: absolute;
+    left: -250%;
+    width: 300%;
+    height: 100%;
+    background:#7494ec;
+    border-radius: 150px;
+    z-index: 2;
+    transition: 1.8s ease-in-out;
+}
+
+.form-container.active .toggle-box::before{
+    left: 50%;
+}
+
+.toggle-panel{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transition: 0.6s ease-in-out;
+}
+
+.toggle-panel.toggle-left{
+    left: 0;
+    transition-delay: 1.2s;
+}
+
+.form-container.active .toggle-panel.toggle-left{
+    left: -50%;
+    transition-delay: 0.6s;
+}
+
+.toggle-panel.toggle-right{
+    right: -50%;
+    transition-delay: 0.6s;
+}
+
+.form-container.active .toggle-panel.toggle-right{
+    right: 0;
+    transition-delay: 1.2s;
+}
+
+.toggle-panel p{
+    margin-bottom: 20px;
+}
+
+.toggle-panel .btn{
+    width: 160px;
+    height: 46px;
+    background: transparent;
+    border: 2px solid #fff;
+    box-shadow: none;
+}
+
+.register-steps {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.register-steps .register-form,
+.register-steps .complete-form {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: fit-content;
+  overflow: auto;
+  transition: opacity .3s ease;
+}
+
+/* Par défaut : étape 1 visible, étape 2 cachée */
+.register-steps .register-form { opacity: 1; pointer-events: auto; }
+.register-steps .complete-form { opacity: 0; pointer-events: none; }
+
+/* Quand on passe à l’étape 2 (ajoute .step-2 sur .register-steps) */
+.register-steps.step-2 .register-form { opacity: 0; pointer-events: none; }
+.register-steps.step-2 .complete-form { opacity: 1; pointer-events: auto; }
+
+.register-steps{
+    margin-top: 30%;
+}
