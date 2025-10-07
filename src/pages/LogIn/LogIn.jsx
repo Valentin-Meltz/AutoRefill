@@ -103,14 +103,6 @@ export default function LogIn() {
         }        
     }
 
-    useEffect(() => {
-        const id = sessionStorage.getItem("Id");
-
-        if(id){
-            navigate("/account");
-        }
-    }, [navigate]);
-
     return (
         <div className="main">
             <Header />
