@@ -7,7 +7,7 @@ const API_URL = env.BACKEND_API_URL;
 export async function getProducts() {
     const res = await fetch(`${API_URL}/products`);
     const data = await res.json();
-    return data;
+    return data.products;
 }
 
 // Get a single product by ID
