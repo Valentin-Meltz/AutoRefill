@@ -1,6 +1,6 @@
 # Get Vercel Deployment
 
-This project is deploy on [Vercel](https://auto-refill.vercel.app/)
+This project is deploy on [Vercel](https://auto-refill.vercel.app/)\
 This project is deploy on [VPS : PLM Pro](http://autorefill.plmpro.fr)
 
 # Getting Started with Create React App
